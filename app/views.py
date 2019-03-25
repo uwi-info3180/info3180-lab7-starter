@@ -13,6 +13,9 @@ from flask import render_template, request
 ###
 
 
+# Please create all new routes and view functions above this route.
+# This route is now our catch all route for our VueJS single page
+# application.
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path):
@@ -23,7 +26,7 @@ def index(path):
 
     Also we will render the initial webpage and then let VueJS take control.
     """
-    return app.send_static_file('index.html')
+    return render_template('index.html')
 
 
 # Here we define a function to collect form errors from Flask-WTF

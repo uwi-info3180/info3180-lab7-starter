@@ -40,10 +40,26 @@ const Home = Vue.component('home', {
     }
 });
 
+const NotFound = Vue.component('not-found', {
+    template: `
+    <div>
+        <h1>404 - Not Found</h1>
+    </div>
+    `,
+    data: function () {
+        return {}
+    }
+})
+
 // Define Routes
 const router = new VueRouter({
+    mode: 'history',
     routes: [
-        { path: "/", component: Home }
+        {path: "/", component: Home},
+        // Put other routes here
+
+        // This is a catch all route in case none of the above matches
+        {path: "*", component: NotFound}
     ]
 });
 
