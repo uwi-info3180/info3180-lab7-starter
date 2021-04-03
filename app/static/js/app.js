@@ -1,5 +1,15 @@
 /* Add your Application JavaScript */
-Vue.component('app-header', {
+// Instantiate our main Vue Instance
+const app = Vue.createApp({
+    data() {
+        return {
+
+        }
+    }
+});
+
+app.component('app-header', {
+    name: 'AppHeader',
     template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
       <a class="navbar-brand" href="#">Lab 7</a>
@@ -18,53 +28,61 @@ Vue.component('app-header', {
     `
 });
 
-Vue.component('app-footer', {
+app.component('app-footer', {
+    name: 'AppFooter',
     template: `
     <footer>
         <div class="container">
-            <p>Copyright &copy; Flask Inc.</p>
+            <p>Copyright &copy; {{ year }} Flask Inc.</p>
         </div>
     </footer>
-    `
+    `,
+    data() {
+        return {
+            year: (new Date).getFullYear()
+        }
+    }
 });
 
-const Home = Vue.component('home', {
-   template: `
+const Home = {
+    name: 'Home',
+    template: `
     <div class="jumbotron">
         <h1>Lab 7</h1>
         <p class="lead">In this lab we will demonstrate VueJS working with Forms and Form Validation from Flask-WTF.</p>
     </div>
-   `,
-    data: function() {
-       return {}
+    `,
+    data() {
+        return {}
     }
-});
+};
 
-const NotFound = Vue.component('not-found', {
+const NotFound = {
+    name: 'NotFound',
     template: `
     <div>
         <h1>404 - Not Found</h1>
     </div>
     `,
-    data: function () {
+    data() {
         return {}
     }
-})
+};
 
 // Define Routes
-const router = new VueRouter({
-    mode: 'history',
-    routes: [
-        {path: "/", component: Home},
-        // Put other routes here
+const routes = [
+    { path: "/", component: Home },
+    // Put other routes here
 
-        // This is a catch all route in case none of the above matches
-        {path: "*", component: NotFound}
-    ]
+    // This is a catch all route in case none of the above matches
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound }
+];
+
+const router = VueRouter.createRouter({
+    history: VueRouter.createWebHistory(),
+    routes, // short for `routes: routes`
 });
 
-// Instantiate our main Vue Instance
-let app = new Vue({
-    el: "#app",
-    router
-});
+app.use(router);
+
+app.mount('#app');
